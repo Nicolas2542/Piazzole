@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Equipaggi</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-center mb-4">Gestione piazzale</h1>
+            <div id="data-ora-corrente" class="text-center mb-3"></div>
+            <button id="resetAllBtn" class="btn btn-outline-warning d-none ms-2">Resetta Tutto</button> <!-- Pulsante Resetta Tutto aggiunto qui -->
+            <button type="button" class="btn btn-info d-none ms-2" id="monitoraggioBtn">Monitoraggio</button> <!-- Pulsante Monitoraggio aggiunto -->
+            <button type="button" class="btn btn-outline-secondary me-2" id="prepostoBtn">Login Preposto</button> <!-- Aggiunto margine -->
+            <button id="loginBtn" class="btn btn-outline-primary">Login Admin</button> <!-- Rimosso margine -->
+        </div>
+
+        <!-- Modal Login -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">Login Amministratore</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div id="loginError" class="text-danger d-none">Username o password non validi</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                        <button type="button" class="btn btn-primary" id="loginSubmit">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Login Preposto -->
+        <div class="modal fade" id="prepostoModal" tabindex="-1" aria-labelledby="prepostoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="prepostoModalLabel">Login Preposto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="prepostoUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="prepostoUsername">
+                        </div>
+                        <div class="mb-3">
+                            <label for="prepostoPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="prepostoPassword">
+                        </div>
+                        <div id="prepostoError" class="text-danger d-none">Username o password non validi</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                        <button type="button" class="btn btn-primary" id="prepostoSubmit">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione Filter -->
+        <div class="mb-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Cerca equipaggio...">
+        </div>
+
+        <!-- Sezione 1 -->
+        <div class="sezione mb-5">
+            <div class="header-grid mb-2">
+                <div>Buca 4</div>
+                <div>Buca 5</div>
+                <div>Buca 6</div>
+                <div>Buca 7</div>
+                <div>Buca 8</div>
+                <div>Buca 9</div>
+                <div>Buca 10</div>
+                <div>Buca 11</div>
+                <div>Buca 12</div>
+                <div>Buca 13</div>
+            </div>
+            <div class="grid-container" id="sezione1"></div>
+        </div>
+
+        <div class="sezione">
+            <div class="header-grid mb-2">
+                <div>Buca 30</div>
+                <div>Buca 31</div>
+                <div>Buca 32</div>
+                <div>Buca 33</div>
+                <div>Buca 34</div>
+                <div>Preparazione 1</div>
+                <div>Preparazione 2</div>
+            </div>
+            <div class="grid-container" id="sezione2"></div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Monitoraggio Piazzole</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <button id="loginBtn" class="btn btn-outline-primary">Login Admin</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="prepostoBtn" class="btn btn-outline-secondary">Login Preposto</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="resetAllBtn" class="btn btn-outline-danger d-none">Resetta Tutto</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="monitoraggioBtn" class="btn btn-outline-info d-none">Monitoraggio</button>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button id="logoutBtn" class="btn btn-outline-dark">Logout</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="login.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

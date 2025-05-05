@@ -1,0 +1,195 @@
+.sezione {
+    margin-bottom: 3rem;
+}
+
+.header-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 110px);
+    gap: 1.35rem;
+    overflow: hidden;
+    font-weight: bold;
+    padding: 0;
+    height: 40px;
+    max-width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: flex-start;
+    white-space: nowrap;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+/* Stile specifico per le buche da 4 a 13 */
+.card-buca-4-13 {
+    width: 110px;
+    height: 139.2px;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stile specifico per l'header della sezione 2 */
+.sezione:nth-child(4) .header-grid {
+    grid-template-columns: repeat(10, minmax(110px, 1fr));
+}
+
+.header-grid div {
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 0.5rem;
+    border-radius: 4px;
+    width: 110px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(10, 110px);
+    gap: 1.35rem;
+    overflow: hidden;
+    padding: 0;
+    grid-auto-flow: column; /* Forza il flusso orizzontale */
+    max-width: 100%;
+    margin: 0 auto;
+    white-space: nowrap;
+}
+
+/* Stile specifico per la sezione 2 */
+#sezione2 {
+    grid-template-columns: repeat(13, 110px);
+    gap: 1.35rem;
+    padding: 0;
+    grid-auto-flow: column; /* Forza il flusso orizzontale */
+    white-space: nowrap;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.buca-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 110px;
+    min-width: 110px;
+}
+
+.card-equipaggio {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 0.5rem;
+    width: 110px;
+    height: 139.2px;
+    margin: 0 auto;
+    transition: transform 0.2s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Stile specifico per le card nelle buche da 4 a 13 */
+.card-buca-4-13 {
+    width: 110px;
+    height: 139.2px;
+    padding: 0.5rem;
+}
+
+/* Stile specifico per le scritte da Buca 30 a Preparazione 2 */
+.card-dimensione-specifica {
+    width: 110px;
+    height: 139.2px;
+    padding: 0.5rem;
+}
+
+
+
+.card-equipaggio:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.id-duplicato {
+    background-color: #ffcccc;
+    border: 1px solid #ff0000;
+}
+
+.id-confermato {
+    background-color: #ccffcc;
+    border: 1px solid #00ff00;
+}
+
+.card-equipaggio p {
+    margin: 0.1rem 0; /* Ridotto il margine verticale */
+    font-size: 0.9rem;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-equipaggio p:hover {
+    background-color: #f8f9fa;
+    border-radius: 3px;
+    padding: 2px 4px;
+}
+
+.admin-mode .card-equipaggio p:hover {
+    background-color: #e8f4ff;
+    border: 1px dashed #007bff;
+}
+
+.campo-modificabile {
+    transition: background-color 0.2s;
+}
+
+.campo-input {
+    width: 100%;
+    padding: 2px 4px;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+#searchInput {
+    margin: 1rem auto;
+    max-width: 500px;
+}
+
+@media (max-width: 768px) {
+    .header-grid,
+    .grid-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .header-grid div {
+        display: none;
+    }
+    
+    .card-equipaggio {
+        width: 110px;
+        height: 139.2px;
+        padding: 0.8rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .header-grid,
+    .grid-container {
+        grid-template-columns: repeat(13, 110px);
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .sezione:nth-child(4) .header-grid,
+    #sezione2 {
+        grid-template-columns: repeat(7, 110px);
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+}
