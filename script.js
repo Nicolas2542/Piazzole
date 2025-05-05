@@ -141,15 +141,6 @@ function caricaStatoSalvato() {
             const coloriCaricati = JSON.parse(coloriCardJSON);
             coloriCard = coloriCaricati;
             console.log('Colori card caricati:', coloriCard);
-            
-            // Applica i colori alle card
-            for (const [id, colore] of Object.entries(coloriCard)) {
-                const card = document.querySelector(`.card-equipaggio[data-original-id="${id}"]`);
-                if (card) {
-                    card.style.backgroundColor = colore;
-                    console.log(`Applicato colore ${colore} alla card ${id}`);
-                }
-            }
         } catch (error) {
             console.error('Errore nel caricamento dei colori delle card:', error);
             coloriCard = {};
@@ -191,38 +182,32 @@ function caricaStatoSalvato() {
         console.log('Conferme caricate:', confermeArray);
     }
     
-    // Carica l'intero stato degli equipaggi
+    // Usa sempre l'array di default per la struttura base
+    equipaggi = [...equipaggiDefault];
+    
+    // Carica l'intero stato degli equipaggi per aggiornare i dati
     const equipaggiStatoJSON = localStorage.getItem('equipaggiStato');
     console.log('Dati equipaggiStato dal localStorage:', equipaggiStatoJSON);
     
     if (equipaggiStatoJSON) {
         try {
-            // Carica gli equipaggi e rimuovi i duplicati
             const equipaggiCaricati = JSON.parse(equipaggiStatoJSON);
-            equipaggi = [];
-            const idUnici = new Set();
             
-            // Filtra i duplicati mantenendo l'ultima occorrenza
-            for (let i = equipaggiCaricati.length - 1; i >= 0; i--) {
-                const equipaggio = equipaggiCaricati[i];
-                if (equipaggio.id !== undefined && equipaggio.id !== '') {
-                    if (!idUnici.has(equipaggio.id)) {
-                        idUnici.add(equipaggio.id);
-                        equipaggi.unshift(equipaggio);
-                    }
-                } else {
-                    equipaggi.unshift(equipaggio);
+            // Aggiorna solo i dati degli equipaggi esistenti
+            equipaggiCaricati.forEach(equipaggioCaricato => {
+                const index = equipaggi.findIndex(e => e.id === equipaggioCaricato.id);
+                if (index !== -1) {
+                    // Aggiorna solo i campi modificabili
+                    equipaggi[index].turno = equipaggioCaricato.turno || '';
+                    equipaggi[index].classe = equipaggioCaricato.classe || '';
+                    equipaggi[index].note = equipaggioCaricato.note || '';
                 }
-            }
+            });
             
-            console.log('Stato completo degli equipaggi caricato:', equipaggi);
+            console.log('Dati equipaggi aggiornati:', equipaggi);
         } catch (error) {
             console.error('Errore nel caricamento dello stato degli equipaggi:', error);
-            equipaggi = [...equipaggiDefault]; // Usa l'array di default in caso di errore
         }
-    } else {
-        console.log('Nessuno stato degli equipaggi trovato nel localStorage');
-        equipaggi = [...equipaggiDefault]; // Usa l'array di default se non ci sono dati salvati
     }
     
     // Carica le modifiche ai campi degli equipaggi
@@ -233,19 +218,16 @@ function caricaStatoSalvato() {
         const campiModificati = JSON.parse(campiModificatiJSON);
         console.log('Campi modificati da applicare:', campiModificati);
         
-        // Applica le modifiche agli equipaggi
+        // Applica le modifiche solo agli equipaggi esistenti
         for (const id in campiModificati) {
-            console.log(`Elaborazione modifiche per ID: ${id}`);
-            const equipaggioIndex = equipaggi.findIndex(e => e.id === parseInt(id) || (id === '' && e.id === undefined));
+            const equipaggioIndex = equipaggi.findIndex(e => e.id === parseInt(id));
             if (equipaggioIndex !== -1) {
                 const modifiche = campiModificati[id];
-                console.log(`Modifiche trovate per ID ${id}:`, modifiche);
                 for (const campo in modifiche) {
-                    console.log(`Applicazione modifica - Campo: ${campo}, Valore: ${modifiche[campo]}`);
-                    equipaggi[equipaggioIndex][campo] = modifiche[campo];
+                    if (campo !== 'id' && campo !== 'sezione') { // Non modificare ID e sezione
+                        equipaggi[equipaggioIndex][campo] = modifiche[campo];
+                    }
                 }
-            } else {
-                console.log(`Nessun equipaggio trovato per ID: ${id}`);
             }
         }
     }
