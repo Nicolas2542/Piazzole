@@ -11,8 +11,28 @@ let confermeStato = new Set(); // Stato per memorizzare gli ID confermati
 // Variabile globale per gli equipaggi, inizializzata vuota
 let equipaggi = [];
 
-// Rimuoviamo l'array di default
-// const equipaggiDefault = [ ... ];
+// Array di default per gli equipaggi
+const equipaggiDefault = [
+    { id: 5001, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5002, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5003, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5004, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5005, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5006, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5007, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5008, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5009, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5010, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5500, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5501, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5748, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 5999, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 7012, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 7345, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 7567, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 7568, turno: '', classe: '', sezione: 1, note: '' },
+    { id: 7678, turno: '', classe: '', sezione: 1, note: '' }
+];
 
 // Funzione per salvare i dati nel localStorage con backup
 function salvaDati(key, data) {
@@ -187,11 +207,11 @@ function caricaStatoSalvato() {
             console.log('Stato completo degli equipaggi caricato:', equipaggi);
         } catch (error) {
             console.error('Errore nel caricamento dello stato degli equipaggi:', error);
-            equipaggi = []; // Inizializza come array vuoto in caso di errore
+            equipaggi = [...equipaggiDefault]; // Usa l'array di default in caso di errore
         }
     } else {
         console.log('Nessuno stato degli equipaggi trovato nel localStorage');
-        equipaggi = []; // Inizializza come array vuoto se non ci sono dati salvati
+        equipaggi = [...equipaggiDefault]; // Usa l'array di default se non ci sono dati salvati
     }
     
     // Carica le modifiche ai campi degli equipaggi
