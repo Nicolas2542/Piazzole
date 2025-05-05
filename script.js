@@ -1301,3 +1301,96 @@ function aggiornaDatiMonitoraggio(equipaggioId, tipo) {
     localStorage.setItem('tempiCarico', JSON.stringify(tempi));
     console.log('Dati monitoraggio aggiornati:', tempi[equipaggioId]);
 }
+
+// Funzione per esportare i dati del localStorage
+function esportaDatiLocalStorage() {
+    const datiDaEsportare = {
+        equipaggiStato: localStorage.getItem('equipaggiStato'),
+        coloriCard: localStorage.getItem('coloriCard'),
+        confermeStato: localStorage.getItem('confermeStato'),
+        tempiCarico: localStorage.getItem('tempiCarico'),
+        campiModificati: localStorage.getItem('campiModificati'),
+        coloriCampoTurno: localStorage.getItem('coloriCampoTurno')
+    };
+
+    // Crea il file di download
+    const blob = new Blob([JSON.stringify(datiDaEsportare, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'dati_piazzole.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
+// Funzione per importare i dati nel localStorage
+function importaDatiLocalStorage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const dati = JSON.parse(e.target.result);
+                
+                // Importa i dati nel localStorage
+                for (const [key, value] of Object.entries(dati)) {
+                    if (value) {
+                        localStorage.setItem(key, value);
+                    }
+                }
+                
+                // Ricarica la pagina per applicare i cambiamenti
+                location.reload();
+            } catch (error) {
+                console.error('Errore durante l\'importazione dei dati:', error);
+                alert('Errore durante l\'importazione dei dati. Controlla il formato del file.');
+            }
+        };
+        reader.readAsText(file);
+    }
+}
+
+// Aggiungi i pulsanti per esportare/importare dati
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing code ...
+
+    // Aggiungi i pulsanti solo se l'utente è admin
+    if (isAdmin) {
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'd-flex gap-2 mt-3';
+        
+        // Pulsante per esportare
+        const exportButton = document.createElement('button');
+        exportButton.className = 'btn btn-primary';
+        exportButton.innerHTML = '<i class="fas fa-download"></i> Esporta Dati';
+        exportButton.onclick = esportaDatiLocalStorage;
+        
+        // Pulsante per importare
+        const importButton = document.createElement('button');
+        importButton.className = 'btn btn-secondary';
+        importButton.innerHTML = '<i class="fas fa-upload"></i> Importa Dati';
+        
+        // Input file nascosto
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.json';
+        fileInput.style.display = 'none';
+        fileInput.onchange = importaDatiLocalStorage;
+        
+        // Collega il pulsante all'input file
+        importButton.onclick = () => fileInput.click();
+        
+        // Aggiungi gli elementi al container
+        buttonContainer.appendChild(exportButton);
+        buttonContainer.appendChild(importButton);
+        buttonContainer.appendChild(fileInput);
+        
+        // Inserisci il container dopo i pulsanti esistenti
+        const existingButtons = document.querySelector('.btn-danger');
+        if (existingButtons) {
+            existingButtons.parentNode.insertBefore(buttonContainer, existingButtons.nextSibling);
+        }
+    }
+});
