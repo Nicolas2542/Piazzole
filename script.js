@@ -489,167 +489,78 @@ function popolaGriglie() {
         console.error('Elemento sezione1 non trovato');
         return;
     }
-    const gridContainer = sezione1;
-    if (!gridContainer) {
-        console.error('Elemento grid-container non trovato');
-        return;
-    }
+
     // Creiamo esattamente 10 celle per le buche da 4 a 13
     for(let i = 0; i < 10; i++) {
         const cella = document.createElement('div');
-        cella.className = 'buca-column'; // Aggiungiamo una classe per identificare le colonne
-        gridContainer.appendChild(cella);
-    }
-    const celleBuca = gridContainer.querySelectorAll('.buca-column');
-    const equipaggiSezione1 = equipaggi.filter(e => e.sezione === 1);
-    
-    // Raggruppiamo gli equipaggi per buca (da 4 a 13)
-    const equipaggiPerBuca = Array(10).fill().map(() => []);
-    // Sposta l'equipaggio 7678 nella buca 7 (indice 6)
-    const equipaggio7678 = equipaggiSezione1.find(e => e.id === 7678);
-    if (equipaggio7678) {
-        const index7678 = equipaggiSezione1.findIndex(e => e.id === 7678);
-        if (index7678 !== -1) equipaggiSezione1.splice(index7678, 1);
-        equipaggiPerBuca[6].push(equipaggio7678);
-    }
-    // Posiziona l'equipaggio 7567 nella Buca 12 (indice 8)
-    const equipaggio7567 = equipaggiSezione1.find(e => e.id === 7567);
-    if (equipaggio7567) {
-        const index7567 = equipaggiSezione1.findIndex(e => e.id === 7567);
-        if (index7567 !== -1) equipaggiSezione1.splice(index7567, 1);
-        equipaggiPerBuca[8].push(equipaggio7567);
+        cella.className = 'buca-column';
+        sezione1.appendChild(cella);
     }
 
-    // Aggiungi un nuovo equipaggio sotto Buca 12
-    const nuovoEquipaggio = {
-        id: 7568,
-        turno: 'serale',
-        classe: 'B',
-        sezione: 1,
-        note: ''
-    };
-    equipaggiPerBuca[8].push(nuovoEquipaggio);
-    equipaggi.push(nuovoEquipaggio); // Aggiungi anche all'array principale degli equipaggi
-
-    // Posiziona l'equipaggio 7345 dopo l'equipaggio 7012
-    const equipaggio7345 = equipaggiSezione1.find(e => e.id === 7345);
-    if (equipaggio7345) {
-        const index7345 = equipaggiSezione1.findIndex(e => e.id === 7345);
-        if (index7345 !== -1) equipaggiSezione1.splice(index7345, 1);
-        // Lo terremo da parte per posizionarlo dopo 7012
-    }
+    const celleBuca = sezione1.querySelectorAll('.buca-column');
     
-    // Regole speciali di allineamento: Buca 4 (indice 0) con ID 5010, Buca 8 (indice 4) con ID 5999, Buca 9 (indice 5) con ID 5500 e Buca 13 (indice 9) con ID 5748
-    const equipaggio5010 = equipaggiSezione1.find(e => e.id === 5010);
-    const equipaggio5999 = equipaggiSezione1.find(e => e.id === 5999);
-    const equipaggio5500 = equipaggiSezione1.find(e => e.id === 5500);
-    const equipaggio5748 = equipaggiSezione1.find(e => e.id === 5748);
-    
-    // Rimuoviamo questi equipaggi dall'array principale per posizionarli manualmente
-    if (equipaggio5010) {
-        const index5010 = equipaggiSezione1.findIndex(e => e.id === 5010);
-        if (index5010 !== -1) equipaggiSezione1.splice(index5010, 1);
-        equipaggiPerBuca[0].push(equipaggio5010); // Posiziona 5010 nella Buca 4 (indice 0)
-    }
-    
-    if (equipaggio5748) {
-        const index5748 = equipaggiSezione1.findIndex(e => e.id === 5748);
-        if (index5748 !== -1) equipaggiSezione1.splice(index5748, 1);
-        equipaggiPerBuca[9].push(equipaggio5748); // Posiziona 5748 nella Buca 13 (indice 9)
-    }
-    
-    if (equipaggio5999) {
-        const index5999 = equipaggiSezione1.findIndex(e => e.id === 5999);
-        if (index5999 !== -1) equipaggiSezione1.splice(index5999, 1);
-        equipaggiPerBuca[4].push(equipaggio5999); // Posiziona 5999 nella Buca 8 (indice 4)
-    }
-    
-    if (equipaggio5500) {
-        const index5500 = equipaggiSezione1.findIndex(e => e.id === 5500);
-        if (index5500 !== -1) equipaggiSezione1.splice(index5500, 1);
-        equipaggiPerBuca[5].push(equipaggio5500); // Posiziona 5500 nella Buca 9 (indice 5)
-    }
-    
-    // Posiziona l'equipaggio 5501 nella Buca 9 (indice 5)
-    const equipaggio5501 = equipaggiSezione1.find(e => e.id === 5501);
-    if (equipaggio5501) {
-        const index5501 = equipaggiSezione1.findIndex(e => e.id === 5501);
-        if (index5501 !== -1) equipaggiSezione1.splice(index5501, 1);
-        equipaggiPerBuca[5].push(equipaggio5501); // Posiziona 5501 nella Buca 9 (indice 5)
-    }
-    
-    // Distribuisci gli equipaggi con regole speciali per la Buca 11
-    const buca11Index = equipaggiSezione1.findIndex(e => e.id === 5008);
-    const equipaggio5007Index = equipaggiSezione1.findIndex(e => e.id === 5007);
-    
-    if (buca11Index !== -1 && equipaggio5007Index !== -1) {
-        const buca11 = equipaggiSezione1.splice(buca11Index, 1)[0];
-        equipaggiSezione1.splice(equipaggio5007Index, 0, buca11);
-    }
-    
-    // Posiziona l'equipaggio 5009 nella Buca 11 (indice 7)
-    const equipaggio5009 = equipaggiSezione1.find(e => e.id === 5009);
-    if (equipaggio5009) {
-        const index5009 = equipaggiSezione1.findIndex(e => e.id === 5009);
-        if (index5009 !== -1) equipaggiSezione1.splice(index5009, 1);
-        equipaggiPerBuca[7].push(equipaggio5009); // Posiziona 5009 nella Buca 11 (indice 7)
-    }
-    
-    // Distribuiamo gli equipaggi rimanenti nelle rispettive buche
-    equipaggiSezione1.forEach((equipaggio, index) => {
-        const bucaIndex = index % 10; // Assegna ciclicamente alle 10 buche
-        equipaggiPerBuca[bucaIndex].push(equipaggio);
-    });
-    
-    // Ora inseriamo gli equipaggi nelle rispettive colonne con limite massimo di 4 card per colonna
-    // Prima contiamo quante card ci sono in ogni colonna
-    const contatoreBuca = Array(10).fill(0);
-    
-    // Distribuiamo gli equipaggi rispettando il limite di 4 card per colonna
-    equipaggiPerBuca.forEach((equipaggiBuca, bucaIndex) => {
-        // Limitiamo a massimo 4 card per colonna
-        const maxCardPerColonna = 4;
-        let cardInserite = 0;
-        
-        equipaggiBuca.forEach(equipaggio => {
-            // Se abbiamo già raggiunto il limite di 4 card per questa colonna, non inseriamo altre card
-            if (contatoreBuca[bucaIndex] >= maxCardPerColonna) {
-                return; // Salta questa card
+    // Per ogni buca, creiamo esattamente 4 card
+    celleBuca.forEach((cella, bucaIndex) => {
+        // Crea 4 card per ogni buca
+        for(let i = 0; i < 4; i++) {
+            // Crea una card vuota con ID progressivo
+            const cardId = 5000 + (bucaIndex * 4) + i + 1;
+            const equipaggio = {
+                id: cardId,
+                turno: '',
+                classe: '',
+                sezione: 1,
+                note: ''
+            };
+            
+            // Cerca se esiste già un equipaggio con questo ID
+            const equipaggioEsistente = equipaggi.find(e => e.id === cardId);
+            if (equipaggioEsistente) {
+                // Se esiste, usa i dati salvati
+                equipaggio.turno = equipaggioEsistente.turno || '';
+                equipaggio.classe = equipaggioEsistente.classe || '';
+                equipaggio.note = equipaggioEsistente.note || '';
             }
             
             const card = creaCardEquipaggio(equipaggio);
-            if(celleBuca[bucaIndex]) {
-                celleBuca[bucaIndex].appendChild(card);
-                contatoreBuca[bucaIndex]++;
-                cardInserite++;
-                
-                // Se abbiamo appena inserito l'equipaggio 7012, inseriamo subito dopo l'equipaggio 7345
-                // ma solo se non abbiamo già raggiunto il limite di 4 card
-                if (equipaggio.id === 7012 && equipaggio7345 && contatoreBuca[bucaIndex] < maxCardPerColonna) {
-                    const card7345 = creaCardEquipaggio(equipaggio7345);
-                    celleBuca[bucaIndex].appendChild(card7345);
-                    contatoreBuca[bucaIndex]++;
-                }
-            }
-        });
+            cella.appendChild(card);
+        }
     });
 
-
-    // La variabile sezione2 è già stata definita e svuotata all'inizio
+    // Sezione 2 (buche da 14 a 20)
     if (sezione2) {
         for(let i = 0; i < 7; i++) {
             const cella = document.createElement('div');
-            cella.className = 'buca-column'; // Aggiungiamo la classe buca-column come nella sezione1
+            cella.className = 'buca-column';
             sezione2.appendChild(cella);
         }
+        
         const celleSezione2 = sezione2.querySelectorAll('.buca-column');
-        const equipaggiSezione2 = equipaggi.filter(e => e.sezione === 2);
-        // Nessun ordinamento speciale, distribuisci gli equipaggi in modo sequenziale
-        equipaggiSezione2.forEach((equipaggio, index) => {
-            const card = creaCardEquipaggio(equipaggio);
-            const bucaIndex = index % 7; // Modificato per distribuire su 7 colonne
-            if(celleSezione2[bucaIndex]) {
-                celleSezione2[bucaIndex].appendChild(card);
+        
+        // Per ogni buca nella sezione 2, creiamo esattamente 4 card
+        celleSezione2.forEach((cella, bucaIndex) => {
+            for(let i = 0; i < 4; i++) {
+                // Crea una card vuota con ID progressivo
+                const cardId = 7000 + (bucaIndex * 4) + i + 1;
+                const equipaggio = {
+                    id: cardId,
+                    turno: '',
+                    classe: '',
+                    sezione: 2,
+                    note: ''
+                };
+                
+                // Cerca se esiste già un equipaggio con questo ID
+                const equipaggioEsistente = equipaggi.find(e => e.id === cardId);
+                if (equipaggioEsistente) {
+                    // Se esiste, usa i dati salvati
+                    equipaggio.turno = equipaggioEsistente.turno || '';
+                    equipaggio.classe = equipaggioEsistente.classe || '';
+                    equipaggio.note = equipaggioEsistente.note || '';
+                }
+                
+                const card = creaCardEquipaggio(equipaggio);
+                cella.appendChild(card);
             }
         });
     } else {
