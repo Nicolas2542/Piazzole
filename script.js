@@ -13,6 +13,7 @@ let equipaggi = [];
 
 // Array di default per gli equipaggi
 const equipaggiDefault = [
+    // Buche da 4 a 11
     { id: 5001, turno: '', classe: '', sezione: 1, note: '' },
     { id: 5002, turno: '', classe: '', sezione: 1, note: '' },
     { id: 5003, turno: '', classe: '', sezione: 1, note: '' },
@@ -23,15 +24,25 @@ const equipaggiDefault = [
     { id: 5008, turno: '', classe: '', sezione: 1, note: '' },
     { id: 5009, turno: '', classe: '', sezione: 1, note: '' },
     { id: 5010, turno: '', classe: '', sezione: 1, note: '' },
+    // Buche da 12 a 13
     { id: 5500, turno: '', classe: '', sezione: 1, note: '' },
     { id: 5501, turno: '', classe: '', sezione: 1, note: '' },
     { id: 5748, turno: '', classe: '', sezione: 1, note: '' },
     { id: 5999, turno: '', classe: '', sezione: 1, note: '' },
+    // Buche da 14 a 20
     { id: 7012, turno: '', classe: '', sezione: 1, note: '' },
     { id: 7345, turno: '', classe: '', sezione: 1, note: '' },
     { id: 7567, turno: '', classe: '', sezione: 1, note: '' },
     { id: 7568, turno: '', classe: '', sezione: 1, note: '' },
-    { id: 7678, turno: '', classe: '', sezione: 1, note: '' }
+    { id: 7678, turno: '', classe: '', sezione: 1, note: '' },
+    // Buche da 21 a 27
+    { id: 7890, turno: '', classe: '', sezione: 2, note: '' },
+    { id: 8012, turno: '', classe: '', sezione: 2, note: '' },
+    { id: 8234, turno: '', classe: '', sezione: 2, note: '' },
+    { id: 8456, turno: '', classe: '', sezione: 2, note: '' },
+    { id: 8678, turno: '', classe: '', sezione: 2, note: '' },
+    { id: 8901, turno: '', classe: '', sezione: 2, note: '' },
+    { id: 9123, turno: '', classe: '', sezione: 2, note: '' }
 ];
 
 // Funzione per salvare i dati nel localStorage con backup
