@@ -1359,17 +1359,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Aggiungi i pulsanti solo se l'utente è admin
     if (isAdmin) {
         const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'd-flex gap-2 mt-3';
+        buttonContainer.className = 'd-flex gap-2 mt-3 mb-3';
+        buttonContainer.style.justifyContent = 'center';
         
         // Pulsante per esportare
         const exportButton = document.createElement('button');
-        exportButton.className = 'btn btn-primary';
+        exportButton.className = 'btn btn-primary btn-lg';
         exportButton.innerHTML = '<i class="fas fa-download"></i> Esporta Dati';
         exportButton.onclick = esportaDatiLocalStorage;
         
         // Pulsante per importare
         const importButton = document.createElement('button');
-        importButton.className = 'btn btn-secondary';
+        importButton.className = 'btn btn-secondary btn-lg';
         importButton.innerHTML = '<i class="fas fa-upload"></i> Importa Dati';
         
         // Input file nascosto
@@ -1387,10 +1388,10 @@ document.addEventListener('DOMContentLoaded', function() {
         buttonContainer.appendChild(importButton);
         buttonContainer.appendChild(fileInput);
         
-        // Inserisci il container dopo i pulsanti esistenti
-        const existingButtons = document.querySelector('.btn-danger');
-        if (existingButtons) {
-            existingButtons.parentNode.insertBefore(buttonContainer, existingButtons.nextSibling);
+        // Inserisci il container prima della barra di ricerca
+        const searchContainer = document.querySelector('.search-container');
+        if (searchContainer) {
+            searchContainer.parentNode.insertBefore(buttonContainer, searchContainer);
         }
     }
 });
